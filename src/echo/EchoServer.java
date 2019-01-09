@@ -15,6 +15,7 @@ public class EchoServer {
 	private static final int PORT = 5000;
 	
 	public static void main(String[] args) {
+		
 		ServerSocket serverSocket = null;
 		try {
 			// 1. 서버소켓 생성
@@ -29,45 +30,9 @@ public class EchoServer {
 			
 			// 3. Accept
 			Socket socket = serverSocket.accept();
+			Thread thread = new EchoServerReceiveThread(socket);
+			thread.start();
 			
-			InetSocketAddress inetRemoteSocketAddress =
-					(InetSocketAddress)socket.getRemoteSocketAddress();
-			String remoteHostAddress = inetRemoteSocketAddress.getAddress().getHostAddress();
-			int remoteHostPort = inetRemoteSocketAddress.getPort();
-			log("connected by client["+
-							remoteHostAddress+":"+remoteHostPort+"]");
-			try {
-				// 4. IOStream 받아오기
-				BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"UTF-8"));
-				PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"), true);
-				
-				while(true) {
-					// 5. 데이터 읽기
-					String data = br.readLine();
-					System.out.println(data);
-					if(data == null) {
-						log(" closed by client");
-						break;
-					}
-					log("received : "+ data);
-					
-					// 6. 데이터 쓰기
-					pw.println(data);
-				}
-			} catch (SocketException e) {
-				log("abnormal closed by client");
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					// 7. 자원 정리
-					if(socket != null && socket.isClosed() == false) {
-						socket.close();
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -82,6 +47,6 @@ public class EchoServer {
 	}
 	
 	public static void log(String s) {
-		System.out.println("[server] "+s);
+		System.out.println("[server#"+Thread.currentThread().getId()+"] "+s);
 	}
 }
