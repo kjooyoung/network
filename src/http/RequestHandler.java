@@ -106,7 +106,7 @@ public class RequestHandler extends Thread {
 
 		// 응답
 		// header
-		outputStream.write("HTTP/1.1 200 OK\r\n".getBytes("UTF-8"));
+		outputStream.write((protocol+" 200 OK\r\n").getBytes("UTF-8"));
 		outputStream.write(("Content-Type:"+contentType+"; charset=utf-8\r\n").getBytes("UTF-8"));
 		outputStream.write("\r\n".getBytes());
 		// body
@@ -125,12 +125,12 @@ public class RequestHandler extends Thread {
 		File file = new File("./webapp/error/404.html");
 		byte[] body = Files.readAllBytes(file.toPath());
 		
-		outputStream.write("HTTP/1.0 404 File Not Found\r\n".getBytes("UTF-8"));
+		outputStream.write((protocol+" 404 File Not Found\r\n").getBytes("UTF-8"));
 		outputStream.write("\r\n".getBytes());
 		outputStream.write(body);
 	}
 	
-	private void response400Error(OutputStream outputStream, String string) throws IOException {
+	private void response400Error(OutputStream outputStream, String protocol) throws IOException {
 		//400처리 과제
 		/*
 		 HTTP/1.0 400 Bad request\r\n
@@ -141,7 +141,7 @@ public class RequestHandler extends Thread {
 		File file = new File("./webapp/error/400.html");
 		byte[] body = Files.readAllBytes(file.toPath());
 		
-		outputStream.write("HTTP/1.0 400 File Bad request\r\n".getBytes("UTF-8"));
+		outputStream.write((protocol+" 400 File Bad request\r\n").getBytes("UTF-8"));
 		outputStream.write("\r\n".getBytes());
 		outputStream.write(body);
 	}
