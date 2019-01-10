@@ -28,10 +28,10 @@ public class ChatServerThread extends Thread{
 				(InetSocketAddress)socket.getRemoteSocketAddress();
 		String remoteHostAddress = inetRemoteSocketAddress.getAddress().getHostAddress();
 		int remoteHostPort = inetRemoteSocketAddress.getPort();
-		
+		PrintWriter pw = null;
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"UTF-8"));
-			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"),true);
+			pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"),true);
 			
 			while(true) {
 				String protocol = br.readLine();
@@ -45,6 +45,7 @@ public class ChatServerThread extends Thread{
 			
 		} catch (SocketException e) {
 			log(nickname+"님의 연결 끊김");
+			boardcast(nickname+"님이 퇴장하셨습니다.", pw);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
