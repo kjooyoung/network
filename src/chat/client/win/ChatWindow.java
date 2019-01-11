@@ -83,10 +83,10 @@ public class ChatWindow {
 	
 	public void sendMessage() {
 		String message = textField.getText();
-		
 		// MESSAGE 명령 처리 요청
 		// MESSAGE: + message\r\n"
 		pw.println("message:"+message);
+		
 		//test
 		textArea.append("\n");
 		textArea.append(name+" > "+message);

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatServer {
-	private static final int PORT = 8088;
+	private static final int PORT = 8000;
 	
 	public static void main(String[] args) {
 		ServerSocket serverSocket = null;
@@ -21,9 +21,9 @@ public class ChatServer {
 			//1. create server socket
 			serverSocket = new ServerSocket();
 
-			//1-1. set option SO_REUSEADDR
-			// (종료 후 빨리 바인딩을 하기 위해서)
-			serverSocket.setReuseAddress(true);
+//			//1-1. set option SO_REUSEADDR
+//			// (종료 후 빨리 바인딩을 하기 위해서)
+//			serverSocket.setReuseAddress(true);
 			
 			InetAddress inetAddress = InetAddress.getLocalHost();
 			String localhostAddress = inetAddress.getHostAddress();

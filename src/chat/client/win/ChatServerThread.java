@@ -1,8 +1,6 @@
 package chat.client.win;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -24,10 +22,6 @@ public class ChatServerThread extends Thread{
 	
 	@Override
 	public void run() {
-		InetSocketAddress inetRemoteSocketAddress = 
-				(InetSocketAddress)socket.getRemoteSocketAddress();
-		//String remoteHostAddress = inetRemoteSocketAddress.getAddress().getHostAddress();
-		//int remoteHostPort = inetRemoteSocketAddress.getPort();
 		PrintWriter pw = null;
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"UTF-8"));
@@ -35,10 +29,14 @@ public class ChatServerThread extends Thread{
 			
 			while(true) {
 				String protocol = br.readLine();
+				if(protocol == null) {
+					log("closed by client");
+					break;
+				}
 				String[] tokens = protocol.split(":");
 				if(tokens[0].equals("join")) {
 					doJoin(tokens[1], pw);
-				}else {
+				}else if(tokens != null){
 					doMessage(tokens[1], pw);
 				}
 			}
@@ -59,13 +57,13 @@ public class ChatServerThread extends Thread{
 		}
 	}
 
-	private void doQuit(PrintWriter pw) {
-		removeWriter(pw);
-		boardcast(nickname+"님이 퇴장하셨습니다.", pw);
-		
-		//서버
-		System.out.println(nickname+"님이 퇴장하셨습니다.");
-	}
+//	private void doQuit(PrintWriter pw) {
+//		removeWriter(pw);
+//		boardcast(nickname+"님이 퇴장하셨습니다.", pw);
+//		
+//		//서버
+//		System.out.println(nickname+"님이 퇴장하셨습니다.");
+//	}
 
 	private void doMessage(String message, PrintWriter pw) {
 		boardcast(nickname+" > "+message, pw);

@@ -7,11 +7,9 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
-import chat.ChatClientThread;
-
 public class ChatClientApp {
 	private static final String SERVER_IP = "192.168.56.1";
-	private static final int SERVER_PORT = 8088;
+	private static final int SERVER_PORT = 8000;
 	
 	public static void main(String[] args) {
 		String nickname = null;
@@ -41,21 +39,13 @@ public class ChatClientApp {
 			pw.println("join:"+nickname);
 			
 			ChatWindow cw = new ChatWindow(nickname, pw);
-			cw.show();
 			
 			new chat.client.win.ChatClientThread(br, cw).start();
+			cw.show();
 			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if(socket != null && socket.isClosed()==false) {
-					socket.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 	}
 

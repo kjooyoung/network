@@ -20,6 +20,7 @@ public class ChatClientThread extends Thread{
 				String data = br.readLine();
 				if(data == null) {
 					System.out.println("서버 종료");
+					break;
 				}
 				cw.getTextArea().append("\n"+data);
 			}
