@@ -26,8 +26,8 @@ public class ChatServerThread extends Thread{
 	public void run() {
 		InetSocketAddress inetRemoteSocketAddress = 
 				(InetSocketAddress)socket.getRemoteSocketAddress();
-		String remoteHostAddress = inetRemoteSocketAddress.getAddress().getHostAddress();
-		int remoteHostPort = inetRemoteSocketAddress.getPort();
+		//String remoteHostAddress = inetRemoteSocketAddress.getAddress().getHostAddress();
+		//int remoteHostPort = inetRemoteSocketAddress.getPort();
 		PrintWriter pw = null;
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"UTF-8"));

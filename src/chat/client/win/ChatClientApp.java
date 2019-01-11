@@ -45,26 +45,17 @@ public class ChatClientApp {
 			
 			new chat.client.win.ChatClientThread(br, cw).start();
 			
-			//while(true) {
-				//System.out.print("> ");
-				//String protocol = sc.nextLine();
-				//cw.sendMessage();
-//				if(protocol.equals("quit")) {
-//					pw.println(protocol);
-//					break;
-//				}else {
-//					cw.sendMessage();
-//				}
-			//}
-			
-			// join 처리
-			// Response 가 "JOIN:OK"이면
-			
-			
-			
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				if(socket != null && socket.isClosed()==false) {
+					socket.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

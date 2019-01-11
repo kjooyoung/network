@@ -18,8 +18,13 @@ public class ChatServer {
 		List<Writer> listWriters = new ArrayList<Writer>();
 		
 		try {
+			//1. create server socket
 			serverSocket = new ServerSocket();
 
+			//1-1. set option SO_REUSEADDR
+			// (종료 후 빨리 바인딩을 하기 위해서)
+			serverSocket.setReuseAddress(true);
+			
 			InetAddress inetAddress = InetAddress.getLocalHost();
 			String localhostAddress = inetAddress.getHostAddress();
 			
